@@ -1,0 +1,9 @@
+naming:
+  InvalidPackageDeclaration:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  ReturnCount:
+    active: false
