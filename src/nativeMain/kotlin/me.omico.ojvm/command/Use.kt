@@ -33,10 +33,10 @@ import platform.windows.GetLastError
 import platform.windows.SYMBOLIC_LINK_FLAG_DIRECTORY
 
 object Use : Subcommand("use", "Use a specific JDK") {
-    private val path by path()
+    private val pathOrAlias by pathOrAlias()
 
     override fun execute() {
-        val jdk = ojvmConfiguration.jdks.find { it.path == path }
+        val jdk = ojvmConfiguration.jdks.find { it.path == pathOrAlias || it.alias == pathOrAlias }
         if (jdk == null) {
             println("JDK not found.")
             return
@@ -50,8 +50,8 @@ object Use : Subcommand("use", "Use a specific JDK") {
     }
 }
 
-private inline fun ArgParser.path(): SingleArgument<String, DefaultRequiredType.Required> = this
+private inline fun ArgParser.pathOrAlias(): SingleArgument<String, DefaultRequiredType.Required> = this
     .argument(
         type = ArgType.String,
-        description = "The Java SDK to use.",
+        description = "The JDK path or alias.",
     )

@@ -26,11 +26,11 @@ import kotlinx.cli.SingleOption
 import kotlinx.cli.Subcommand
 import kotlinx.cli.default
 import me.omico.ojvm.configuration.JdkConfiguration
-import me.omico.ojvm.configuration.detectJdks
 import me.omico.ojvm.configuration.ojvmConfiguration
 import me.omico.ojvm.configuration.saveConfiguration
 import me.omico.ojvm.utility.JdkVersion
 import me.omico.ojvm.utility.description
+import me.omico.ojvm.utility.detectJdks
 import me.omico.ojvm.utility.toPath
 
 object Add : Subcommand("add", "Add JDK(s)") {

@@ -20,6 +20,9 @@
 package me.omico.ojvm.utility
 
 import kotlinx.serialization.Serializable
+import me.omico.ojvm.configuration.JdkConfiguration
+import me.omico.ojvm.configuration.ojvmConfiguration
+import me.omico.ojvm.configuration.saveConfiguration
 import okio.Path
 
 inline val Path.javaExecutable
@@ -50,5 +53,79 @@ data class JdkVersion(
                 build = versionStrings[3].toInt(),
             )
         }
+    }
+}
+
+val jdkVendors = listOf(
+    JdkVendor.Adoptium,
+    JdkVendor.Zulu,
+)
+
+data class JdkVendor(
+    val id: String,
+    val installationLocations: List<String>,
+    val versionRegex: Regex? = null,
+    val useExecutableVersion: Boolean = false,
+) {
+    companion object {
+        val Adoptium = JdkVendor(
+            id = "temurin",
+            installationLocations = listOf(
+                "C:\\Program Files\\Eclipse Adoptium",
+                "C:\\Program Files (x86)\\Eclipse Adoptium",
+            ),
+            versionRegex = "jdk-([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)-hotspot".toRegex(),
+        )
+        val Zulu = JdkVendor(
+            id = "zulu",
+            installationLocations = listOf(
+                "C:\\Program Files\\Zulu",
+                "C:\\Program Files (x86)\\Zulu",
+            ),
+            versionRegex = "zulu-([0-9]+)".toRegex(),
+            useExecutableVersion = true,
+        )
+    }
+}
+
+fun discoverJdks() {
+    val jdks = mutableSetOf<JdkConfiguration>()
+    jdkVendors.forEach { vendor ->
+        vendor.installationLocations
+            .map(String::toPath)
+            .filter(Path::exists)
+            .forEach { path -> jdks.detectJdks(path, 1, vendor) }
+    }
+    val newJdkPaths = jdks.map(JdkConfiguration::path)
+    ojvmConfiguration.jdks
+        .filter { it.path.toPath().exists() }
+        .forEach { jdk ->
+            if (jdk.path in newJdkPaths) return@forEach
+            jdks.add(jdk)
+        }
+    saveConfiguration {
+        copy(jdks = jdks)
+    }
+}
+
+fun MutableSet<JdkConfiguration>.detectJdks(path: Path, depthRemain: Int, vendor: JdkVendor? = null) {
+    path.list()
+        .filter(Path::isDirectory)
+        .forEach { detectJdks(it, depthRemain - 1, vendor) }
+    if (depthRemain != 0) return
+    if (!path.javaExecutable.exists()) return
+    path.javaExecutable.fileVersion()?.let { fileVersion ->
+        val version = vendor?.versionRegex?.matchEntire(path.name)?.groupValues?.get(1) ?: fileVersion
+        JdkConfiguration(
+            path = path.toString(),
+            version = when {
+                vendor != null && vendor.useExecutableVersion -> fileVersion
+                else -> version
+            },
+            alias = when {
+                vendor != null -> "${vendor.id}-$version"
+                else -> path.name
+            },
+        ).also(::add)
     }
 }
