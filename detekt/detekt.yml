@@ -1,3 +1,7 @@
+complexity:
+  TooManyFunctions:
+    active: false
+
 naming:
   InvalidPackageDeclaration:
     active: false

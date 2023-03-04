@@ -48,6 +48,8 @@ val userHomeDirectory: Path by lazy {
         ?: error("Cannot get user's home directory.")
 }
 
+inline fun String.toPath() = toPath(true)
+
 @Throws(IOException::class)
 inline fun Path.exists(): Boolean = FileSystem.SYSTEM.exists(this)
 

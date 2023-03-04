@@ -26,17 +26,12 @@ import kotlinx.cli.SingleOption
 import kotlinx.cli.Subcommand
 import kotlinx.cli.default
 import me.omico.ojvm.configuration.JdkConfiguration
+import me.omico.ojvm.configuration.detectJdks
 import me.omico.ojvm.configuration.ojvmConfiguration
 import me.omico.ojvm.configuration.saveConfiguration
 import me.omico.ojvm.utility.JdkVersion
 import me.omico.ojvm.utility.description
-import me.omico.ojvm.utility.exists
-import me.omico.ojvm.utility.fileVersion
-import me.omico.ojvm.utility.isDirectory
-import me.omico.ojvm.utility.javaExecutable
-import me.omico.ojvm.utility.list
-import okio.Path
-import okio.Path.Companion.toPath
+import me.omico.ojvm.utility.toPath
 
 object Add : Subcommand("add", "Add JDK(s)") {
     private val paths by paths(
@@ -51,11 +46,11 @@ object Add : Subcommand("add", "Add JDK(s)") {
 
     override fun execute() {
         paths
-            .map { it.toPath() }
+            .map(String::toPath)
             .forEach {
                 when (depth) {
-                    -1 -> detectJdkPaths(it, Int.MAX_VALUE)
-                    else -> detectJdkPaths(it, depth)
+                    -1 -> jdks.detectJdks(it, Int.MAX_VALUE)
+                    else -> jdks.detectJdks(it, depth)
                 }
             }
         val currentJdkPaths = ojvmConfiguration.jdks.map(JdkConfiguration::path)
@@ -71,20 +66,6 @@ object Add : Subcommand("add", "Add JDK(s)") {
                 .sortedBy { JdkVersion.parse(it.version) }
                 .toSet()
             copy(jdks = newJdks)
-        }
-    }
-
-    private fun detectJdkPaths(path: Path, depthRemain: Int) {
-        path.list()
-            .filter(Path::isDirectory)
-            .forEach { detectJdkPaths(it, depthRemain - 1) }
-        if (depthRemain != 0) return
-        if (!path.javaExecutable.exists()) return
-        path.javaExecutable.fileVersion()?.let { version ->
-            JdkConfiguration(
-                path = path.toString(),
-                version = version,
-            ).also(jdks::add)
         }
     }
 }
