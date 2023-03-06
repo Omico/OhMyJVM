@@ -60,12 +60,12 @@ Path: C:\Program Files\Eclipse Adoptium\jdk-8.0.362.9-hotspot
 Version: 8.0.362.9
 ```
 
-#### Switch JDK
+### Switch JDK
 
 Now, you can switch different JDKs.
 
 ```text
-ojvm use temurin-11.0.17.8 
+ojvm use temurin-11.0.17.8
 
 java -version
 openjdk version "11.0.17" 2022-10-18
