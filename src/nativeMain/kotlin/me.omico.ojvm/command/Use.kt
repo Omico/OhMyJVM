@@ -25,28 +25,16 @@ import kotlinx.cli.DefaultRequiredType
 import kotlinx.cli.SingleArgument
 import kotlinx.cli.Subcommand
 import me.omico.ojvm.configuration.ojvmConfiguration
-import me.omico.ojvm.utility.createDirectories
-import me.omico.ojvm.utility.delete
-import me.omico.ojvm.utility.userHomeDirectory
-import platform.windows.CreateSymbolicLinkW
-import platform.windows.GetLastError
-import platform.windows.SYMBOLIC_LINK_FLAG_DIRECTORY
+import me.omico.ojvm.utility.linkAsCurrent
 
 object Use : Subcommand("use", "Use a specific JDK") {
     private val pathOrAlias by pathOrAlias()
 
     override fun execute() {
-        val jdk = ojvmConfiguration.jdks.find { it.path == pathOrAlias || it.alias == pathOrAlias }
-        if (jdk == null) {
-            println("JDK not found.")
-            return
+        when (val jdk = ojvmConfiguration.jdks.find { it.path == pathOrAlias || it.alias == pathOrAlias }) {
+            null -> println("JDK not found.")
+            else -> jdk.linkAsCurrent()
         }
-        println("Using JDK: ${jdk.path}")
-        val target = userHomeDirectory / ".ojvm" / "jdk" / "current"
-        target.parent!!.createDirectories() // Make sure the parent directory exists.
-        target.delete()
-        if (CreateSymbolicLinkW(target.toString(), jdk.path, SYMBOLIC_LINK_FLAG_DIRECTORY).toInt() != 0) return
-        println("Failed to create symbolic link: ${GetLastError()}")
     }
 }
 

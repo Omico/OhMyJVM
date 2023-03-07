@@ -24,10 +24,12 @@ import me.omico.ojvm.command.Remove
 import me.omico.ojvm.command.Use
 import me.omico.ojvm.configuration.loadConfiguration
 import me.omico.ojvm.utility.discoverJdks
+import me.omico.ojvm.utility.relinkJdkAfterUpgrade
 
 fun main(arguments: Array<String>) {
     loadConfiguration()
     discoverJdks()
+    relinkJdkAfterUpgrade()
     val parser = ArgParser("ojvm")
     parser.subcommands(
         Add,

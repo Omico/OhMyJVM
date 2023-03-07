@@ -32,6 +32,7 @@ import okio.Path
 
 @Serializable
 data class OjvmConfiguration(
+    val currentJdk: JdkConfiguration? = null,
     val jdks: Set<JdkConfiguration> = emptySet(),
 ) {
     companion object {
