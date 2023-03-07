@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "me.omico.ojvm"
-version = "2.1.0-SNAPSHOT"
+version = "2.1.0"
 
 kotlin {
     mingwX64("native") {
