@@ -4,9 +4,9 @@ import me.omico.age.spotless.kotlin
 import me.omico.age.spotless.kotlinGradle
 
 plugins {
-    kotlin("multiplatform") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
-    id("com.diffplug.spotless") version "6.16.0"
+    kotlin("multiplatform") version "1.8.20"
+    kotlin("plugin.serialization") version "1.8.20"
+    id("com.diffplug.spotless") version "6.18.0"
     id("me.omico.age.spotless") version "1.0.0-SNAPSHOT"
 }
 
