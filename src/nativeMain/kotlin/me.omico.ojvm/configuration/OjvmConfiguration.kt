@@ -25,10 +25,9 @@ import kotlinx.serialization.encodeToString
 import me.omico.ojvm.utility.delete
 import me.omico.ojvm.utility.exists
 import me.omico.ojvm.utility.json
+import me.omico.ojvm.utility.ojvmConfigurationFile
 import me.omico.ojvm.utility.readUtf8
-import me.omico.ojvm.utility.userHomeDirectory
 import me.omico.ojvm.utility.writeUtf8
-import okio.Path
 
 @Serializable
 data class OjvmConfiguration(
@@ -57,15 +56,13 @@ var ojvmConfiguration: OjvmConfiguration = OjvmConfiguration.Empty
     private set
 
 fun loadConfiguration() {
-    if (!configurationFile.exists()) return
-    runCatching { json.decodeFromString<OjvmConfiguration>(configurationFile.readUtf8()) }
-        .onFailure { configurationFile.delete() }
+    if (!ojvmConfigurationFile.exists()) return
+    runCatching { json.decodeFromString<OjvmConfiguration>(ojvmConfigurationFile.readUtf8()) }
+        .onFailure { ojvmConfigurationFile.delete() }
         .getOrDefault(OjvmConfiguration.Empty)
 }
 
 fun saveConfiguration(block: (OjvmConfiguration.() -> OjvmConfiguration)? = null) {
     block?.let { ojvmConfiguration = block(ojvmConfiguration) }
-    configurationFile.writeUtf8(json.encodeToString(ojvmConfiguration))
+    ojvmConfigurationFile.writeUtf8(json.encodeToString(ojvmConfiguration))
 }
-
-private val configurationFile: Path by lazy { userHomeDirectory / ".ojvm.json" }
