@@ -28,8 +28,6 @@ import platform.windows.CreateSymbolicLinkW
 import platform.windows.GetLastError
 import platform.windows.SYMBOLIC_LINK_FLAG_DIRECTORY
 
-val ojvmJdkDirectory: Path by lazy { userHomeDirectory / ".ojvm" / "jdk" / "current" }
-
 inline val Path.javaExecutable
     get() = this / "bin" / "java.exe"
 
@@ -140,7 +138,7 @@ fun relinkJdkAfterUpgrade() {
     val jdk = ojvmConfiguration.jdks.find { it.alias == currentJdk.alias }
     when {
         jdk == null -> saveConfiguration {
-            ojvmJdkDirectory.delete()
+            ojvmCurrentJdkDirectory.delete()
             println("Current JDK is not found, please use `ojvm use` to select a JDK.")
             copy(currentJdk = null)
         }
@@ -150,9 +148,9 @@ fun relinkJdkAfterUpgrade() {
 
 fun JdkConfiguration.linkAsCurrent() {
     println("Using JDK: $path")
-    ojvmJdkDirectory.parent!!.createDirectories() // Make sure the parent directory exists.
-    ojvmJdkDirectory.delete()
-    val fail = CreateSymbolicLinkW(ojvmJdkDirectory.toString(), path, SYMBOLIC_LINK_FLAG_DIRECTORY).toInt() == 0
+    ojvmCurrentJdkDirectory.parent!!.createDirectories() // Make sure the parent directory exists.
+    ojvmCurrentJdkDirectory.delete()
+    val fail = CreateSymbolicLinkW(ojvmCurrentJdkDirectory.toString(), path, SYMBOLIC_LINK_FLAG_DIRECTORY).toInt() == 0
     if (fail) println("Failed to create symbolic link: ${GetLastError()}")
     saveConfiguration {
         copy(currentJdk = if (fail) null else this@linkAsCurrent)
