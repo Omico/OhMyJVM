@@ -148,7 +148,7 @@ fun relinkJdkAfterUpgrade() {
 
 fun JdkConfiguration.linkAsCurrent() {
     println("Using JDK: $path")
-    ojvmCurrentJdkDirectory.parent!!.createDirectories() // Make sure the parent directory exists.
+    ojvmJdkDirectory.createDirectories() // Make sure the parent directory exists.
     ojvmCurrentJdkDirectory.delete()
     val fail = CreateSymbolicLinkW(ojvmCurrentJdkDirectory.toString(), path, SYMBOLIC_LINK_FLAG_DIRECTORY).toInt() == 0
     if (fail) println("Failed to create symbolic link: ${GetLastError()}")
