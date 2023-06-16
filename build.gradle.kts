@@ -1,13 +1,10 @@
-import me.omico.age.spotless.configureSpotless
-import me.omico.age.spotless.intelliJIDEARunConfiguration
-import me.omico.age.spotless.kotlin
-import me.omico.age.spotless.kotlinGradle
+import me.omico.consensus.dsl.consensus
 
 plugins {
     kotlin("multiplatform") version "1.8.20"
     kotlin("plugin.serialization") version "1.8.20"
     id("com.diffplug.spotless") version "6.18.0"
-    id("me.omico.age.spotless") version "1.0.0-SNAPSHOT"
+    id("me.omico.consensus.spotless") version "0.1.0"
 }
 
 group = "me.omico.ojvm"
@@ -36,20 +33,13 @@ kotlin {
     }
 }
 
-configureSpotless {
-    freshmark {
-        target("**/*.md")
-        trimTrailingWhitespace()
-        indentWithSpaces()
-        endWithNewline()
+consensus {
+    spotless {
+        freshmark()
+        intelliJIDEARunConfiguration()
+        kotlin(
+            licenseHeaderFile = rootProject.file("spotless/copyright.kt"),
+        )
+        kotlinGradle()
     }
-    intelliJIDEARunConfiguration()
-    kotlin(
-        licenseHeaderFile = rootProject.file("spotless/copyright.kt"),
-        licenseHeaderConfig = {
-            updateYearWithLatest(true)
-            yearSeparator("-")
-        },
-    )
-    kotlinGradle()
 }
