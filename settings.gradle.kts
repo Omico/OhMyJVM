@@ -4,15 +4,15 @@ rootProject.name = "ojvm"
 
 pluginManagement {
     repositories {
+        maven(url = "https://maven.omico.me")
         mavenCentral()
-        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
         gradlePluginPortal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
+        maven(url = "https://maven.omico.me")
         mavenCentral()
-        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
     }
 }

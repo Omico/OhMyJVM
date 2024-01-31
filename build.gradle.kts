@@ -3,8 +3,8 @@ import me.omico.consensus.dsl.consensus
 plugins {
     kotlin("multiplatform") version "1.8.20"
     kotlin("plugin.serialization") version "1.8.20"
-    id("com.diffplug.spotless") version "6.18.0"
-    id("me.omico.consensus.spotless") version "0.1.0"
+    id("com.diffplug.spotless") version "6.25.0"
+    id("me.omico.consensus.spotless") version "0.8.0"
 }
 
 group = "me.omico.ojvm"
