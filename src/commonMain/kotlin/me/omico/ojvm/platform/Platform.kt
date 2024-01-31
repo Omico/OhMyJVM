@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,26 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.omico.ojvm.utility
+package me.omico.ojvm.platform
 
-fun description(block: DescriptionScope.() -> Unit): String =
-    DescriptionBuilder().apply(block).toString()
+import me.omico.ojvm.configuration.JdkConfiguration
+import okio.Path
 
-interface DescriptionScope {
-    fun line(content: String = "")
-}
+expect fun Path.fileVersion(): String?
 
-private class DescriptionBuilder : DescriptionScope {
-    private val builder = StringBuilder()
-    private val indent: String = "        "
-    private var isFirstLine = true
-
-    override fun line(content: String) {
-        when {
-            isFirstLine -> builder.appendLine(content).also { isFirstLine = false }
-            else -> builder.append(indent).appendLine(content)
-        }
-    }
-
-    override fun toString() = builder.append(indent).toString()
-}
+expect fun JdkConfiguration.createJdkDirectorySymbolicLink(): Boolean

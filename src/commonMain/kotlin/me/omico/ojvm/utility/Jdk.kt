@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,9 @@ import kotlinx.serialization.Serializable
 import me.omico.ojvm.configuration.JdkConfiguration
 import me.omico.ojvm.configuration.ojvmConfiguration
 import me.omico.ojvm.configuration.saveConfiguration
+import me.omico.ojvm.platform.createJdkDirectorySymbolicLink
+import me.omico.ojvm.platform.fileVersion
 import okio.Path
-import platform.windows.CreateSymbolicLinkW
-import platform.windows.GetLastError
-import platform.windows.SYMBOLIC_LINK_FLAG_DIRECTORY
 
 inline val Path.javaExecutable
     get() = this / "bin" / "java.exe"
@@ -150,13 +149,8 @@ fun JdkConfiguration.linkAsCurrent() {
     println("Using JDK: $path")
     ojvmJdkDirectory.createDirectories() // Make sure the parent directory exists.
     ojvmCurrentJdkDirectory.delete()
-    val fail = CreateSymbolicLinkW(
-        lpSymlinkFileName = ojvmCurrentJdkDirectory.toString(),
-        lpTargetFileName = path,
-        dwFlags = SYMBOLIC_LINK_FLAG_DIRECTORY.toUInt(),
-    ).toInt() == 0
-    if (fail) println("Failed to create symbolic link: ${GetLastError()}")
+    if (createJdkDirectorySymbolicLink().not()) return
     saveConfiguration {
-        copy(currentJdk = if (fail) null else this@linkAsCurrent)
+        copy(currentJdk = this@linkAsCurrent)
     }
 }

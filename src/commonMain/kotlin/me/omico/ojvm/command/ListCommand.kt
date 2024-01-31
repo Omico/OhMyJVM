@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.omico.ojvm.utility
+package me.omico.ojvm.command
 
-import kotlinx.serialization.json.Json
+import kotlinx.cli.Subcommand
+import me.omico.ojvm.configuration.JdkConfiguration
+import me.omico.ojvm.configuration.ojvmConfiguration
+import me.omico.ojvm.configuration.prettyPrint
 
-internal val json = Json {
-    ignoreUnknownKeys = true
-    prettyPrint = true
+object ListCommand : Subcommand("list", "List available JDK(s)") {
+    override fun execute() = ojvmConfiguration.jdks.forEach(JdkConfiguration::prettyPrint)
 }

@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-@file:Suppress(
-    "FunctionName",
-    "SpellCheckingInspection",
-)
-
 package me.omico.ojvm.utility
 
-import platform.windows.DWORD
-import platform.windows.WORD
+import okio.Path
 
-fun HIWORD(value: DWORD): WORD = ((value and 0xFFFF0000u) shr 16).toUShort()
+val ojvmDirectory: Path by lazy { userHomeDirectory / ".ojvm" }
+val ojvmJdkDirectory: Path by lazy { ojvmDirectory / "jdk" }
+val ojvmCurrentJdkDirectory: Path by lazy { ojvmJdkDirectory / "current" }
 
-fun LOWORD(value: DWORD): WORD = (value and 0xFFFFu).toUShort()
+val ojvmConfigurationFile: Path by lazy { ojvmDirectory / "config.json" }

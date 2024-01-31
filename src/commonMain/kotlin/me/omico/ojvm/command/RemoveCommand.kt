@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,27 +19,16 @@
  */
 package me.omico.ojvm.command
 
-import kotlinx.cli.ArgParser
-import kotlinx.cli.ArgType
-import kotlinx.cli.DefaultRequiredType
-import kotlinx.cli.SingleArgument
 import kotlinx.cli.Subcommand
 import me.omico.ojvm.configuration.ojvmConfiguration
-import me.omico.ojvm.utility.linkAsCurrent
+import me.omico.ojvm.configuration.saveConfiguration
 
-object UseCommand : Subcommand("use", "Use a specific JDK") {
-    private val pathOrAlias by pathOrAlias()
+object RemoveCommand : Subcommand("remove", "Remove JDK(s)") {
+    private val paths by paths(description = "The Java SDK path(s) to remove.")
 
     override fun execute() {
-        when (val jdk = ojvmConfiguration.jdks.find { it.path == pathOrAlias || it.alias == pathOrAlias }) {
-            null -> println("JDK not found.")
-            else -> jdk.linkAsCurrent()
+        saveConfiguration {
+            copy(jdks = ojvmConfiguration.jdks.filterNot { it.path in paths }.toSet())
         }
     }
 }
-
-private inline fun ArgParser.pathOrAlias(): SingleArgument<String, DefaultRequiredType.Required> = this
-    .argument(
-        type = ArgType.String,
-        description = "The JDK path or alias.",
-    )

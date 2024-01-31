@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.omico.ojvm.utility
+package me.omico.ojvm.command
 
-import okio.Path
+import kotlinx.cli.ArgParser
+import kotlinx.cli.ArgType
+import kotlinx.cli.DefaultRequiredType
+import kotlinx.cli.MultipleArgument
+import kotlinx.cli.vararg
 
-val ojvmDirectory: Path by lazy { userHomeDirectory / ".ojvm" }
-val ojvmJdkDirectory: Path by lazy { ojvmDirectory / "jdk" }
-val ojvmCurrentJdkDirectory: Path by lazy { ojvmJdkDirectory / "current" }
-
-val ojvmConfigurationFile: Path by lazy { ojvmDirectory / "config.json" }
+inline fun ArgParser.paths(description: String): MultipleArgument<String, DefaultRequiredType.Required> = this
+    .argument(
+        type = ArgType.String,
+        description = description,
+    )
+    .vararg()

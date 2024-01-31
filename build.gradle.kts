@@ -11,10 +11,10 @@ group = "me.omico.ojvm"
 version = "2.2.0-SNAPSHOT"
 
 kotlin {
-    mingwX64("native") {
+    mingwX64 {
         binaries {
             executable {
-                entryPoint = "main"
+                entryPoint = "me.omico.ojvm.main"
                 linkerOpts("-lversion")
             }
         }

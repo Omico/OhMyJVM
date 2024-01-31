@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023 Omico
+ * Copyright (C) 2023-2024 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,18 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.omico.ojvm.command
+@file:Suppress(
+    "FunctionName",
+    "SpellCheckingInspection",
+)
 
-import kotlinx.cli.Subcommand
-import me.omico.ojvm.configuration.ojvmConfiguration
-import me.omico.ojvm.configuration.saveConfiguration
+package me.omico.ojvm.platform.windows
 
-object RemoveCommand : Subcommand("remove", "Remove JDK(s)") {
-    private val paths by paths(description = "The Java SDK path(s) to remove.")
+import platform.windows.DWORD
+import platform.windows.WORD
 
-    override fun execute() {
-        saveConfiguration {
-            copy(jdks = ojvmConfiguration.jdks.filterNot { it.path in paths }.toSet())
-        }
-    }
-}
+fun HIWORD(value: DWORD): WORD = ((value and 0xFFFF0000u) shr 16).toUShort()
+
+fun LOWORD(value: DWORD): WORD = (value and 0xFFFFu).toUShort()
