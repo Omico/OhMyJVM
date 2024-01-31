@@ -25,9 +25,9 @@ kotlin {
         }
         commonMain {
             dependencies {
-                implementation("com.squareup.okio:okio:3.3.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.5")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+                implementation("com.squareup.okio:okio:3.7.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.6")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
             }
         }
     }

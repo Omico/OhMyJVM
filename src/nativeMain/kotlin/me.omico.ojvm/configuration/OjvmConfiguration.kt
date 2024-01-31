@@ -20,7 +20,6 @@
 package me.omico.ojvm.configuration
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import me.omico.ojvm.utility.delete
 import me.omico.ojvm.utility.exists
