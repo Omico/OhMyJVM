@@ -19,11 +19,27 @@
  */
 package me.omico.ojvm.command
 
+import kotlinx.cli.ArgParser
+import kotlinx.cli.ArgType
+import kotlinx.cli.DefaultRequiredType
+import kotlinx.cli.SingleArgument
 import kotlinx.cli.Subcommand
-import me.omico.ojvm.configuration.JdkConfiguration
 import me.omico.ojvm.configuration.ojvmConfiguration
-import me.omico.ojvm.configuration.prettyPrint
+import me.omico.ojvm.utility.linkAsCurrent
 
-object List : Subcommand("list", "List available JDK(s)") {
-    override fun execute() = ojvmConfiguration.jdks.forEach(JdkConfiguration::prettyPrint)
+object UseCommand : Subcommand("use", "Use a specific JDK") {
+    private val pathOrAlias by pathOrAlias()
+
+    override fun execute() {
+        when (val jdk = ojvmConfiguration.jdks.find { it.path == pathOrAlias || it.alias == pathOrAlias }) {
+            null -> println("JDK not found.")
+            else -> jdk.linkAsCurrent()
+        }
+    }
 }
+
+private inline fun ArgParser.pathOrAlias(): SingleArgument<String, DefaultRequiredType.Required> = this
+    .argument(
+        type = ArgType.String,
+        description = "The JDK path or alias.",
+    )

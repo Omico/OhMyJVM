@@ -23,7 +23,7 @@ import kotlinx.cli.Subcommand
 import me.omico.ojvm.configuration.ojvmConfiguration
 import me.omico.ojvm.configuration.saveConfiguration
 
-object Remove : Subcommand("remove", "Remove JDK(s)") {
+object RemoveCommand : Subcommand("remove", "Remove JDK(s)") {
     private val paths by paths(description = "The Java SDK path(s) to remove.")
 
     override fun execute() {

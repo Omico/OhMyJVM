@@ -18,10 +18,10 @@
  *
  */
 import kotlinx.cli.ArgParser
-import me.omico.ojvm.command.Add
-import me.omico.ojvm.command.List
-import me.omico.ojvm.command.Remove
-import me.omico.ojvm.command.Use
+import me.omico.ojvm.command.AddCommand
+import me.omico.ojvm.command.ListCommand
+import me.omico.ojvm.command.RemoveCommand
+import me.omico.ojvm.command.UseCommand
 import me.omico.ojvm.configuration.loadConfiguration
 import me.omico.ojvm.utility.discoverJdks
 import me.omico.ojvm.utility.relinkJdkAfterUpgrade
@@ -32,10 +32,10 @@ fun main(arguments: Array<String>) {
     relinkJdkAfterUpgrade()
     val parser = ArgParser("ojvm")
     parser.subcommands(
-        Add,
-        List,
-        Remove,
-        Use,
+        AddCommand,
+        ListCommand,
+        RemoveCommand,
+        UseCommand,
     )
     when {
         arguments.isEmpty() -> arrayOf("--help")

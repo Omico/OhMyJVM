@@ -33,7 +33,7 @@ import me.omico.ojvm.utility.description
 import me.omico.ojvm.utility.detectJdks
 import me.omico.ojvm.utility.toPath
 
-object Add : Subcommand("add", "Add JDK(s)") {
+object AddCommand : Subcommand("add", "Add JDK(s)") {
     private val paths by paths(
         description = description {
             line()
