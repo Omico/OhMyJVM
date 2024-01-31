@@ -21,10 +21,12 @@ package me.omico.ojvm.configuration
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
+import me.omico.ojvm.utility.createDirectories
 import me.omico.ojvm.utility.delete
 import me.omico.ojvm.utility.exists
 import me.omico.ojvm.utility.json
 import me.omico.ojvm.utility.ojvmConfigurationFile
+import me.omico.ojvm.utility.ojvmDirectory
 import me.omico.ojvm.utility.readUtf8
 import me.omico.ojvm.utility.writeUtf8
 
@@ -63,5 +65,6 @@ fun loadConfiguration() {
 
 fun saveConfiguration(block: (OjvmConfiguration.() -> OjvmConfiguration)? = null) {
     block?.let { ojvmConfiguration = block(ojvmConfiguration) }
+    ojvmDirectory.createDirectories()
     ojvmConfigurationFile.writeUtf8(json.encodeToString(ojvmConfiguration))
 }
