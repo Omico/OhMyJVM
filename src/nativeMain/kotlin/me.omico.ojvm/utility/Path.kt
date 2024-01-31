@@ -19,6 +19,7 @@
  */
 package me.omico.ojvm.utility
 
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.alloc
 import kotlinx.cinterop.allocArray
 import kotlinx.cinterop.memScoped
@@ -43,6 +44,7 @@ import platform.windows.UINTVar
 import platform.windows.VS_FIXEDFILEINFO
 import platform.windows.VerQueryValueW
 
+@OptIn(ExperimentalForeignApi::class)
 val userHomeDirectory: Path by lazy {
     getenv("USERPROFILE")?.toKString()?.toPath()
         ?: error("Cannot get user's home directory.")
@@ -90,6 +92,7 @@ inline fun Path.writeUtf8(
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 inline fun Path.fileVersion(): String? {
     require(exists()) { "$this does not exist." }
     val filePath = toString()

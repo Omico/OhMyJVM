@@ -150,7 +150,11 @@ fun JdkConfiguration.linkAsCurrent() {
     println("Using JDK: $path")
     ojvmJdkDirectory.createDirectories() // Make sure the parent directory exists.
     ojvmCurrentJdkDirectory.delete()
-    val fail = CreateSymbolicLinkW(ojvmCurrentJdkDirectory.toString(), path, SYMBOLIC_LINK_FLAG_DIRECTORY).toInt() == 0
+    val fail = CreateSymbolicLinkW(
+        lpSymlinkFileName = ojvmCurrentJdkDirectory.toString(),
+        lpTargetFileName = path,
+        dwFlags = SYMBOLIC_LINK_FLAG_DIRECTORY.toUInt(),
+    ).toInt() == 0
     if (fail) println("Failed to create symbolic link: ${GetLastError()}")
     saveConfiguration {
         copy(currentJdk = if (fail) null else this@linkAsCurrent)
