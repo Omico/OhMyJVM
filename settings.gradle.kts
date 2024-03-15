@@ -1,18 +1,9 @@
-@file:Suppress("UnstableApiUsage")
-
-rootProject.name = "ojvm"
+rootProject.name = "ojvm-root"
 
 pluginManagement {
-    repositories {
-        maven(url = "https://maven.omico.me")
-        mavenCentral()
-        gradlePluginPortal()
-    }
+    includeBuild("build-logic/initialization")
 }
 
-dependencyResolutionManagement {
-    repositories {
-        maven(url = "https://maven.omico.me")
-        mavenCentral()
-    }
+plugins {
+    id("ojvm")
 }

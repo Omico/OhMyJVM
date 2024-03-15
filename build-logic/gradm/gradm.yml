@@ -1,0 +1,50 @@
+versions:
+  consensus: "0.9.0"
+  gradle: "8.6"
+  kotlin: "2.0.0-Beta4"
+  kotlinx:
+    cli: "0.3.6"
+    serialization: "1.6.3"
+  okio: "3.9.0"
+  plugins:
+    gradle.enterprise: "3.16.2"
+    spotless: "6.25.0"
+
+repositories:
+  omico:
+  mavenCentral:
+  gradlePluginPortal:
+
+plugins:
+  gradlePluginPortal:
+    com.diffplug.spotless: ${versions.plugins.spotless}
+    com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
+    org.jetbrains.kotlin.multiplatform: ${versions.kotlin}
+    org.jetbrains.kotlin.plugin.serialization: ${versions.kotlin}
+  omico:
+    me.omico.consensus.api: ${versions.consensus}
+    me.omico.consensus.git: ${versions.consensus}
+    me.omico.consensus.spotless: ${versions.consensus}
+
+dependencies:
+  mavenCentral:
+    com.squareup.okio:
+      okio:
+        alias: okio
+        version: ${versions.okio}
+    org.jetbrains.kotlin:
+      kotlin-gradle-plugin:
+        alias: kotlinGradlePlugin
+        version: ${versions.kotlin}
+    org.jetbrains.kotlinx:
+      kotlinx-cli:
+        alias: kotlinx.cli
+        version: ${versions.kotlinx.cli}
+      kotlinx-serialization-json:
+        alias: kotlinx.serialization.json
+        version: ${versions.kotlinx.serialization}
+  omico:
+    me.omico.consensus:
+      consensus-dsl:
+        alias: me.omico.consensus.dsl
+        version: ${versions.consensus}
