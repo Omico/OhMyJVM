@@ -1,13 +1,11 @@
 complexity:
-  TooManyFunctions:
+  LongParameterList:
     active: false
-
-naming:
-  InvalidPackageDeclaration:
+  TooManyFunctions:
     active: false
 
 style:
   MagicNumber:
-    active: false
+    ignoreLocalVariableDeclaration: true
   ReturnCount:
     active: false

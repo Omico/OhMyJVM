@@ -1,4 +1,4 @@
-rootProject.name = "ojvm-gradm"
+rootProject.name = "ojvm-build-logic-gradm"
 
 pluginManagement {
     repositories {

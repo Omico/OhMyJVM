@@ -1,4 +1,4 @@
-rootProject.name = "ojvm-initialization"
+rootProject.name = "ojvm-build-logic-initialization"
 
 pluginManagement {
     includeBuild("../gradm")

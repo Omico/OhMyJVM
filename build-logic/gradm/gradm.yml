@@ -1,30 +1,24 @@
 versions:
-  consensus: "0.9.0"
-  gradle: "8.6"
+  consensus: "0.18.1"
   kotlin: "2.1.10"
   kotlinx:
     cli: "0.3.6"
     serialization: "1.8.0"
   okio: "3.10.2"
   plugins:
-    gradle.enterprise: "3.16.2"
-    spotless: "6.25.0"
+    develocity: "3.19.2"
 
 repositories:
   omico:
   mavenCentral:
   gradlePluginPortal:
+  noUpdates:
 
 plugins:
   gradlePluginPortal:
-    com.diffplug.spotless: ${versions.plugins.spotless}
-    com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
-    org.jetbrains.kotlin.multiplatform: ${versions.kotlin}
+    com.gradle.develocity: ${versions.plugins.develocity}
+  noUpdates:
     org.jetbrains.kotlin.plugin.serialization: ${versions.kotlin}
-  omico:
-    me.omico.consensus.api: ${versions.consensus}
-    me.omico.consensus.git: ${versions.consensus}
-    me.omico.consensus.spotless: ${versions.consensus}
 
 dependencies:
   mavenCentral:
@@ -45,6 +39,6 @@ dependencies:
         version: ${versions.kotlinx.serialization}
   omico:
     me.omico.consensus:
-      consensus-dsl:
-        alias: me.omico.consensus.dsl
+      consensus-gradle-plugins:
+        alias: consensusGradlePlugins
         version: ${versions.consensus}
