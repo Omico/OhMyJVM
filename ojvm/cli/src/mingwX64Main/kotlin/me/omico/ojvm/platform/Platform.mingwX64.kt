@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@ import kotlinx.cinterop.pointed
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.value
+import kotlinx.io.files.Path
 import me.omico.ojvm.configuration.JdkConfiguration
 import me.omico.ojvm.platform.windows.HIWORD
 import me.omico.ojvm.platform.windows.LOWORD
 import me.omico.ojvm.utility.exists
 import me.omico.ojvm.utility.ojvmCurrentJdkDirectory
-import okio.Path
 import platform.windows.BYTEVar
 import platform.windows.CreateSymbolicLinkW
 import platform.windows.GetFileVersionInfoSizeW

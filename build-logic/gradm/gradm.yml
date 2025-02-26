@@ -3,8 +3,8 @@ versions:
   kotlin: "2.1.10"
   kotlinx:
     cli: "0.3.6"
+    io: "0.6.0"
     serialization: "1.8.0"
-  okio: "3.10.2"
   plugins:
     develocity: "3.19.2"
 
@@ -22,10 +22,6 @@ plugins:
 
 dependencies:
   mavenCentral:
-    com.squareup.okio:
-      okio:
-        alias: okio
-        version: ${versions.okio}
     org.jetbrains.kotlin:
       kotlin-gradle-plugin:
         alias: kotlinGradlePlugin
@@ -34,6 +30,9 @@ dependencies:
       kotlinx-cli:
         alias: kotlinx.cli
         version: ${versions.kotlinx.cli}
+      kotlinx-io-core:
+        alias: kotlinx.io.core
+        version: ${versions.kotlinx.io}
       kotlinx-serialization-json:
         alias: kotlinx.serialization.json
         version: ${versions.kotlinx.serialization}

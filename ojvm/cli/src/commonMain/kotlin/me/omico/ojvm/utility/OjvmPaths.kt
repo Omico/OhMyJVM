@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
  */
 package me.omico.ojvm.utility
 
-import okio.Path
+import kotlinx.io.files.Path
 
-val ojvmDirectory: Path by lazy { userHomeDirectory / ".ojvm" }
-val ojvmJdkDirectory: Path by lazy { ojvmDirectory / "jdk" }
-val ojvmCurrentJdkDirectory: Path by lazy { ojvmJdkDirectory / "current" }
+val ojvmDirectory: Path by lazy { Path(userHomeDirectory, ".ojvm") }
+val ojvmJdkDirectory: Path by lazy { Path(ojvmDirectory, "jdks") }
+val ojvmCurrentJdkDirectory: Path by lazy { Path(ojvmJdkDirectory, "current") }
 
-val ojvmConfigurationFile: Path by lazy { ojvmDirectory / "config.json" }
+val ojvmConfigurationFile: Path by lazy { Path(ojvmDirectory, "config.json") }

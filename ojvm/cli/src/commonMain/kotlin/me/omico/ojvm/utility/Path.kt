@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +21,15 @@ package me.omico.ojvm.utility
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.toKString
-import okio.BufferedSink
-import okio.BufferedSource
-import okio.FileMetadata
-import okio.FileSystem
-import okio.IOException
-import okio.Path
-import okio.Path.Companion.toPath
+import kotlinx.io.IOException
+import kotlinx.io.Sink
+import kotlinx.io.Source
+import kotlinx.io.buffered
+import kotlinx.io.files.FileMetadata
+import kotlinx.io.files.Path
+import kotlinx.io.files.SystemFileSystem
+import kotlinx.io.readString
+import kotlinx.io.writeString
 import platform.posix.getenv
 
 @OptIn(ExperimentalForeignApi::class)
@@ -36,44 +38,37 @@ val userHomeDirectory: Path by lazy {
         ?: error("Cannot get user's home directory.")
 }
 
-inline fun String.toPath() = toPath(true)
+fun String.toPath(): Path = Path(this)
 
 @Throws(IOException::class)
-inline fun Path.exists(): Boolean = FileSystem.SYSTEM.exists(this)
+fun Path.exists(): Boolean = SystemFileSystem.exists(this)
 
 inline val Path.metadata: FileMetadata
-    get() = FileSystem.SYSTEM.metadata(this)
+    get() = SystemFileSystem.metadataOrNull(this) ?: error("Cannot get metadata of path: $this")
 
 @Throws(IOException::class)
-inline fun Path.isDirectory(): Boolean = metadata.isDirectory
+fun Path.isDirectory(): Boolean = metadata.isDirectory
 
 @Throws(IOException::class)
-inline fun Path.createDirectories(mustCreate: Boolean = false) = FileSystem.SYSTEM.createDirectories(this, mustCreate)
+fun Path.createDirectories(mustCreate: Boolean = false) = SystemFileSystem.createDirectories(this, mustCreate)
 
 @Throws(IOException::class)
-inline fun Path.delete(mustExist: Boolean = false) = FileSystem.SYSTEM.delete(this, mustExist)
+fun Path.delete(mustExist: Boolean = false): Unit = SystemFileSystem.delete(this, mustExist)
 
 @Throws(IOException::class)
-inline fun Path.list(): List<Path> = FileSystem.SYSTEM.list(this)
+fun Path.list(): Collection<Path> = SystemFileSystem.list(this)
 
 @Throws(IOException::class)
-inline fun <T> Path.read(readerAction: BufferedSource.() -> T): T = FileSystem.SYSTEM.read(this, readerAction)
+fun Path.resolve(): Path = SystemFileSystem.resolve(this)
 
 @Throws(IOException::class)
-inline fun Path.readUtf8(): String = read(BufferedSource::readUtf8)
+inline fun <T> Path.read(readerAction: Source.() -> T): T = SystemFileSystem.source(this).buffered().use(readerAction)
 
 @Throws(IOException::class)
-inline fun <T> Path.write(
-    mustCreate: Boolean = false,
-    writerAction: BufferedSink.() -> T,
-): T = FileSystem.SYSTEM.write(this, mustCreate, writerAction)
+fun Path.readUtf8(): String = read { readString() }
 
 @Throws(IOException::class)
-inline fun Path.writeUtf8(
-    content: String,
-    mustCreate: Boolean = false,
-) {
-    write(mustCreate) {
-        writeUtf8(content)
-    }
-}
+inline fun <T> Path.write(writerAction: Sink.() -> T): T = SystemFileSystem.sink(this).buffered().use(writerAction)
+
+@Throws(IOException::class)
+fun Path.writeUtf8(content: String): Unit = write { writeString(content) }

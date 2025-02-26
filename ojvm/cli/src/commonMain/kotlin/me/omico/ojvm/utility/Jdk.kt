@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,16 +19,16 @@
  */
 package me.omico.ojvm.utility
 
+import kotlinx.io.files.Path
 import kotlinx.serialization.Serializable
 import me.omico.ojvm.configuration.JdkConfiguration
 import me.omico.ojvm.configuration.ojvmConfiguration
 import me.omico.ojvm.configuration.saveConfiguration
 import me.omico.ojvm.platform.createJdkDirectorySymbolicLink
 import me.omico.ojvm.platform.fileVersion
-import okio.Path
 
-inline val Path.javaExecutable
-    get() = this / "bin" / "java.exe"
+inline val Path.javaExecutable: Path
+    get() = Path(this, "bin", "java.exe")
 
 @Serializable
 data class JdkVersion(
@@ -119,7 +119,7 @@ fun MutableSet<JdkConfiguration>.detectJdks(path: Path, depthRemain: Int, vendor
     path.javaExecutable.fileVersion()?.let { fileVersion ->
         val version = vendor?.versionRegex?.matchEntire(path.name)?.groupValues?.get(1) ?: fileVersion
         JdkConfiguration(
-            path = path.toString(),
+            path = path.resolve().toString(),
             version = when {
                 vendor != null && vendor.useExecutableVersion -> fileVersion
                 else -> version
@@ -141,6 +141,7 @@ fun relinkJdkAfterUpgrade() {
             println("Current JDK is not found, please use `ojvm use` to select a JDK.")
             copy(currentJdk = null)
         }
+
         jdk.path != currentJdk.path -> jdk.linkAsCurrent()
     }
 }

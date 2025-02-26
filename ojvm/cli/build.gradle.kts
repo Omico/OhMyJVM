@@ -22,6 +22,6 @@ kotlin {
 
 dependencies {
     commonMainImplementation(kotlinx.cli)
+    commonMainImplementation(kotlinx.io.core)
     commonMainImplementation(kotlinx.serialization.json)
-    commonMainImplementation(okio)
 }
