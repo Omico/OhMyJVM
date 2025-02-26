@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ object UseCommand : Subcommand("use", "Use a specific JDK") {
     }
 }
 
-private inline fun ArgParser.pathOrAlias(): SingleArgument<String, DefaultRequiredType.Required> = this
+private fun ArgParser.pathOrAlias(): SingleArgument<String, DefaultRequiredType.Required> = this
     .argument(
         type = ArgType.String,
         description = "The JDK path or alias.",

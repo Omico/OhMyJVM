@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
  *
  */
 package me.omico.ojvm
+
 import kotlinx.cli.ArgParser
 import me.omico.ojvm.command.AddCommand
 import me.omico.ojvm.command.ListCommand

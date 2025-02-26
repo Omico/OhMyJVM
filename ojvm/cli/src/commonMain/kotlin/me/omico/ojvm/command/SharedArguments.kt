@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import kotlinx.cli.DefaultRequiredType
 import kotlinx.cli.MultipleArgument
 import kotlinx.cli.vararg
 
-inline fun ArgParser.paths(description: String): MultipleArgument<String, DefaultRequiredType.Required> = this
+fun ArgParser.paths(description: String): MultipleArgument<String, DefaultRequiredType.Required> = this
     .argument(
         type = ArgType.String,
         description = description,

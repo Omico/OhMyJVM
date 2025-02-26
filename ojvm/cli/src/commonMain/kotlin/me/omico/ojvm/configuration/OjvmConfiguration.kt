@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2024 Omico
+ * Copyright (C) 2023-2025 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
 package me.omico.ojvm.configuration
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import me.omico.ojvm.utility.createDirectories
 import me.omico.ojvm.utility.delete
 import me.omico.ojvm.utility.exists
@@ -47,7 +46,7 @@ data class JdkConfiguration(
     val alias: String? = null,
 )
 
-inline fun JdkConfiguration.prettyPrint() = buildString {
+fun JdkConfiguration.prettyPrint() = buildString {
     alias?.let { appendLine("Alias: $it ") }
     appendLine("Path: $path ")
     appendLine("Version: $version ")
