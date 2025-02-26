@@ -1,7 +1,7 @@
 versions:
   consensus: "0.9.0"
   gradle: "8.6"
-  kotlin: "2.0.0-Beta4"
+  kotlin: "2.1.10"
   kotlinx:
     cli: "0.3.6"
     serialization: "1.6.3"
