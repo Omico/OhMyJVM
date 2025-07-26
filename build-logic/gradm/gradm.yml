@@ -1,12 +1,12 @@
 versions:
-  consensus: "0.18.1"
-  kotlin: "2.1.10"
+  consensus: "0.20.2"
+  kotlin: "2.2.0"
   kotlinx:
     cli: "0.3.6"
-    io: "0.6.0"
-    serialization: "1.8.0"
+    io: "0.8.0"
+    serialization: "1.9.0"
   plugins:
-    develocity: "3.19.2"
+    develocity: "4.1"
 
 repositories:
   omico:
