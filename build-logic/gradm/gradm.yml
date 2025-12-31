@@ -1,9 +1,9 @@
 versions:
   consensus: "0.21.0"
-  kotlin: "2.2.0"
+  kotlin: "2.3.0"
   kotlinx:
     cli: "0.3.6"
-    io: "0.8.0"
+    io: "0.8.2"
     serialization: "1.9.0"
   plugins:
     develocity: "4.3"
