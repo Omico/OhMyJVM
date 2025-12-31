@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    id("ojvm.kotlin.spotless")
+    id("ojvm.spotless-kotlin")
 }
 
 kotlin {

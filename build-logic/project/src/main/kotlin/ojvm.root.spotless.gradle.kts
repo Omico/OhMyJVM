@@ -12,11 +12,17 @@ consensus {
         freshmark()
         gradleProperties()
         kotlin(
-            targets = ConsensusSpotlessDefaults.Kotlin.targets(
-                "build-logic/**/src/main/kotlin/**/*.kt",
-            ),
+            targets =
+                ConsensusSpotlessDefaults.Kotlin.targets(
+                    "build-logic/**/src/main/kotlin/**/*.kt",
+                ),
             licenseHeaderFile = rootProject.file("spotless/copyright.kt").takeIf(File::exists),
         )
-        kotlinGradle()
+        kotlinGradle(
+            targets =
+                ConsensusSpotlessDefaults.KotlinGradle.targets(
+                    "build-logic/*/src/**/*.gradle.kts",
+                ),
+        )
     }
 }
