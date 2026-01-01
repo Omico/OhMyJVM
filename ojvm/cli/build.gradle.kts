@@ -8,8 +8,14 @@ kotlin {
     mingwX64 {
         binaries {
             executable(namePrefix = "ojvm") {
-                entryPoint = "me.omico.ojvm.main"
                 linkerOpts("-lversion")
+            }
+        }
+    }
+    macosArm64 {
+        binaries {
+            executable(namePrefix = "ojvm") {
+                entryPoint = "me.omico.ojvm.main"
             }
         }
     }

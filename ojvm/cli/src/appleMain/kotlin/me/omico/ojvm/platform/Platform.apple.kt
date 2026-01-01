@@ -1,7 +1,7 @@
 /*
  * Oh My JVM - A JDK version manager written in Kotlin
  *
- * Copyright (C) 2023-2026 Omico
+ * Copyright (C) 2026 Omico
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package me.omico.ojvm
+package me.omico.ojvm.platform
 
-expect fun main(arguments: Array<String>)
+import kotlinx.io.files.Path
+import me.omico.ojvm.configuration.JdkConfiguration
+
+actual fun Path.fileVersion(): String? {
+    TODO("Not yet implemented")
+}
+
+actual fun JdkConfiguration.createJdkDirectorySymbolicLink(): Boolean {
+    TODO("Not yet implemented")
+}
